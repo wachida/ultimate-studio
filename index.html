@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✍พู่กันไฟ AI: Ultimate Studio (Pro)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+  <style>
+    /* --- Neumorphic Style Setup from PDF --- */
+    :root {
+      /* Base Color - Crucial for Neumorphism */
+      --nm-bg: #f0f2f5;
+      /* Shadow Colors */
+      --nm-light: #ffffff;
+      --nm-dark: #a3b1c6;
+      /* Primary Accent Color */
+      --nm-primary: #6366f1;
+    }
+    body { font-family: 'Inter', sans-serif; background-color: var(--nm-bg); }
+    
+    .neumorphic-base {
+      background-color: var(--nm-bg);
+    }
+    /* Convex/Extruded Card Style (Sections, Result Boxes) */
+    .neumorphic-card {
+      border-radius: 20px;
+      background: var(--nm-bg);
+      box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.4), /* Darker shadow */
+                  -8px -8px 16px var(--nm-light); /* Lighter shadow */
+      transition: all 0.3s ease;
+      border: none !important; /* Ensure no conflicting borders */
+    }
+    .neumorphic-card:hover {
+      box-shadow: 10px 10px 20px rgba(163, 177, 198, 0.6),
+                  -10px -10px 20px var(--nm-light);
+    }
+
+    /* Concave/Inset Style (Inputs, Textareas, Chat Container) */
+    .neumorphic-inset {
+      border-radius: 12px;
+      background: var(--nm-bg);
+      box-shadow: inset 5px 5px 10px rgba(163, 177, 198, 0.6),
+                  inset -5px -5px 10px var(--nm-light);
+      border: none !important;
+      transition: all 0.3s ease;
+    }
+    .neumorphic-inset:focus {
+      box-shadow: inset 3px 3px 6px rgba(163, 177, 198, 0.6),
+                  inset -3px -3px 6px var(--nm-light);
+      outline: none;
+    }
+
+    /* Button Style (General) */
+    .neumorphic-btn {
+      border-radius: 12px;
+      background: var(--nm-bg);
+      box-shadow: 4px 4px 8px rgba(163, 177, 198, 0.4),
+                  -4px -4px 8px var(--nm-light);
+      color: #334155;
+      transition: all 0.2s ease;
+      border: none;
+      outline: none;
+    }
+    /* Button Pressed State (Slight Inset effect) */
+    .neumorphic-btn:active:not(:disabled),
+    .neumorphic-btn.active {
+      box-shadow: inset 2px 2px 5px rgba(163, 177, 198, 0.6),
+                  inset -2px -2px 5px var(--nm-light);
+      transform: scale(0.98);
+    }
+
+    /* Primary/Action Button (Accent Color with Subtle Neumorphic background) */
+    .neumorphic-btn-primary {
+      background: linear-gradient(145deg, #7477f8, #5a5be0); /* Primary Gradient */
+      color: white;
+      box-shadow: 6px 6px 12px rgba(99, 102, 241, 0.4),
+                  -6px -6px 12px var(--nm-light);
+      border: none;
+    }
+    .neumorphic-btn-primary:hover:not(:disabled) {
+      background: linear-gradient(145deg, #5a5be0, #7477f8);
+    }
+    .neumorphic-btn-primary:active:not(:disabled) {
+      box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3),
+                  inset -2px -2px 5px rgba(255, 255, 255, 0.5);
+      transform: scale(0.98);
+    }
+
+    .neumorphic-btn:disabled, .neumorphic-btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: 4px 4px 8px rgba(163, 177, 198, 0.2),
+                  -4px -4px 8px var(--nm-light);
+    }
+
+    /* Tab Buttons */
+    .neumorphic-tab-active {
+      /* Simulate a concave area for the active tab */
+      background: var(--nm-bg);
+      border-bottom: 2px solid var(--nm-primary);
+      box-shadow: inset 0 3px 5px rgba(163, 177, 198, 0.3);
+      color: var(--nm-primary);
+    }
+    .neumorphic-tab {
+      background: transparent;
+      border-bottom: 2px solid transparent;
+      color: #64748b;
+    }
+    .neumorphic-tab:hover {
+      background: rgba(163, 177, 198, 0.05);
+    }
+
+    /* Result Boxes */
+    .ai-result-box {
+      /* Inherit Neumorphic Card style */
+      padding: 20px;
+      margin-top: 16px;
+      min-height: 60px;
+      position: relative;
+      transition: all 0.3s ease-in-out;
+    }
+
+    /* Action Buttons on result box (small, round buttons) */
+    .action-btn {
+      background-color: var(--nm-bg);
+      color: #64748b;
+      padding: 6px;
+      border-radius: 50%; /* Make them round */
+      cursor: pointer;
+      font-size: 14px; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+      /* Apply Neumorphic small button style */
+      box-shadow: 3px 3px 6px rgba(163, 177, 198, 0.4),
+                  -3px -3px 6px var(--nm-light);
+      border: none;
+      width: 32px;
+      height: 32px;
+    }
+    .action-btn:hover { background-color: #e6e8ec; color: var(--nm-primary); transform: scale(1.05); }
+    .action-btn:active {
+      box-shadow: inset 1px 1px 3px rgba(163, 177, 198, 0.6),
+                  inset -1px -1px 3px var(--nm-light);
+      transform: scale(0.98);
+    }
+
+    .ai-result-box:hover .action-buttons { opacity: 1; }
+    .action-buttons {
+      position: absolute; top: 10px; right: 10px; display: flex; gap: 8px;
+      opacity: 0.5; transition: opacity 0.2s; z-index: 10;
+    }
+
+    /* Chat Interface */
+    .chat-container { height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 16px; }
+    .chat-message { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; position: relative; word-wrap: break-word; }
+    .chat-user {
+      align-self: flex-end;
+      background: var(--nm-primary);
+      color: white;
+      border-bottom-right-radius: 2px;
+      /* Simple solid shadow for user message contrast */
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    .chat-ai {
+      align-self: flex-start;
+      background: var(--nm-bg);
+      color: #334155;
+      border-bottom-left-radius: 2px;
+      /* Subtle Neumorphic card for AI */
+      box-shadow: 3px 3px 6px rgba(163, 177, 198, 0.3),
+                  -3px -3px 6px var(--nm-light);
+    }
+    .chat-bubble-user-sb {
+      align-self: flex-end;
+      background: #4f46e5; /* Indigo */
+      color: white;
+    }
+    .chat-bubble-ai-sb {
+      align-self: flex-start;
+      background: white;
+      color: #1e293b;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+    }
+
+
+    /* Floating Action Buttons */
+    .fab-btn {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: white; display: flex; align-items: center; justify-content: center;
+      /* Enhanced Floating Neumorphic Shadow */
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4),
+                  0 0 10px rgba(99, 102, 241, 0.8);
+      border: none; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .fab-btn:hover {
+       transform: scale(1.05);
+    }
+    .fab-btn:active {
+       transform: scale(0.95);
+    }
+    
+    /* Other utility styles */
+    .gradient-text { background-clip: text; -webkit-background-clip: text; color: transparent;
+      background-image: linear-gradient(to right, #4f46e5, #9333ea, #db2777); }
+    .fab-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 50; }
+    
+    .speaking { animation: pulse-red 2s infinite; background: #ef4444 !important; }
+    @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(0,0,0,0); } 100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
+    
+    .tooltip { position: absolute; right: 70px; background: #1e293b; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; opacity: 0; pointer-events: none; transition: opacity 0.2s; white-space: nowrap; top: 50%; transform: translateY(-50%); }
+    .fab-btn:hover + .tooltip { opacity: 1; }
+    
+    .prose h1, .prose h2, .prose h3 { font-weight: 700; margin-top: 1em; margin-bottom: 0.5em; color: #1e293b; }
+    .prose p { margin-bottom: 0.8em; color: #334155; }
+    .prose ul, .prose ol { margin-left: 1.5em; margin-bottom: 0.8em; list-style-type: disc; }
+    .prose strong { color: #0f172a; font-weight: 600; }
+    
+    .loader { border: 4px solid #e2e8f0; border-top: 4px solid var(--nm-primary); border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "marked": "https://aistudiocdn.com/marked@^17.0.1"
+  }
+}
+</script>
+</head>
+<body class="neumorphic-base text-slate-800">
+  <div id="root"></div>
+</body>
+</html>
